@@ -96,12 +96,12 @@
 
 (defstyle last-message-text
   {:color   colors/text-gray
-   :android {:font-size 14
-             :height    24}
-   :ios     {:font-size 15
-             :height    24}
-   :desktop {:font-size 15
-             :height    24}})
+   :android {:font-size  14
+             :height     24}
+   :ios     {:font-size  15
+             :height     24}
+   :desktop {:font-size  15
+             :max-height 24}})
 
 (def search-input-height 56)
 
