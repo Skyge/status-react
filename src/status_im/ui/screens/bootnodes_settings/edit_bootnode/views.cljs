@@ -12,7 +12,8 @@
    [status-im.ui.components.status-bar.view :as status-bar]
    [status-im.ui.components.toolbar.view :as toolbar]
    [status-im.ui.components.text-input.view :as text-input]
-   [status-im.ui.screens.bootnodes-settings.edit-bootnode.styles :as styles]))
+   [status-im.ui.screens.bootnodes-settings.edit-bootnode.styles :as styles]
+   [status-im.utils.platform :as platform]))
 
 (defn delete-button [id]
   [react/touchable-highlight {:on-press #(re-frame/dispatch [:bootnodes.ui/delete-pressed id])}
@@ -52,13 +53,14 @@
             :on-change-text  #(re-frame/dispatch [:bootnodes.ui/input-changed :name %])
             :auto-focus      true}]
           [text-input/text-input-with-label
-           {:label           (i18n/label :t/bootnode-address)
-            :placeholder     (i18n/label :t/specify-bootnode-address)
-            :content         qr-code
-            :style           styles/input
-            :container       styles/input-container
-            :default-value   url
-            :on-change-text  #(re-frame/dispatch [:bootnodes.ui/input-changed :url %])}]
+           (merge
+            {:label           (i18n/label :t/bootnode-address)
+             :placeholder     (i18n/label :t/specify-bootnode-address)
+             :style           styles/input
+             :container       styles/input-container
+             :default-value   url
+             :on-change-text  #(re-frame/dispatch [:bootnodes.ui/input-changed :url %])}
+            (when-not platform/desktop? {:content qr-code}))]
           (when id
             [delete-button id])]]
         [react/view styles/bottom-container
